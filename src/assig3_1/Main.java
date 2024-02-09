@@ -1,37 +1,78 @@
 package assig3_1;
 
 public class Main {
-    static volatile int currentTurn = 1;
+    static boolean t1Finished = false;
+    static boolean t2Finished = true;
+    static boolean t3Finished = true;
 
-    public static void main(String[] args) throws InterruptedException {
-        Thread t1 = createThread('A', 1, 2);
-        Thread t2 = createThread('B', 2, 3);
-        Thread t3 = createThread('C', 3, 1);
+    public static void main(String[] args) {
+        Object lock = new Object();
+        Thread t1 = new Thread(() -> {
+            while (true) {
+                synchronized (lock) {
+                    try {
+                        while (!t3Finished) {
+                            lock.wait();
+                        }
+                        Thread.sleep(500);
+                        System.out.println("Code of A");
+
+                        t1Finished = true;
+                        t3Finished = false;
+                        t2Finished = false;
+                        lock.notifyAll();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        });
+
+        Thread t2 = new Thread(() -> {
+            while (true) {
+                synchronized (lock) {
+                    try {
+                        while (!t1Finished) {
+                            lock.wait();
+                        }
+                        Thread.sleep(500);
+                        System.out.println("Code of B");
+                        t2Finished = true;
+                        lock.notifyAll();
+                        ;
+                        Thread.sleep(250);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        });
+
+        Thread t3 = new Thread(() -> {
+            while (true) {
+                synchronized (lock) {
+                    while (!(t1Finished && t2Finished)) {
+                        try {
+                            lock.wait();
+                        } catch (InterruptedException e) {
+                            throw new RuntimeException(e);
+                        }
+                    }
+                    try {
+                        Thread.sleep(500);
+                    } catch (InterruptedException e) {
+                        throw new RuntimeException(e);
+                    }
+                    System.out.println("Code of C");
+                    t1Finished = false;
+                    t3Finished = true;
+                    t2Finished = true;
+                }
+            }
+        });
 
         t1.start();
         t2.start();
         t3.start();
-        t1.join();
-    }
-
-    private static Thread createThread(char name, int waitTurn, int nextTurn) {
-        return new Thread(() -> {
-            while (true) {
-                while (currentTurn != waitTurn) ;
-                printStatusAndSleep(name);
-                currentTurn = nextTurn;
-            }
-        });
-    }
-
-    private static void printStatusAndSleep(char name) {
-        for (int i = 0; i < 3; i++) {
-            System.out.println(name + " is running");
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                System.out.println(name + " was interrupted");
-            }
-        }
     }
 }
