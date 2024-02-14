@@ -1,5 +1,12 @@
 package assig3_1;
 
+/**
+ * The Main class demonstrates how to use threads to execute code in a specific order.
+ * Three threads, t1, t2, and t3, are created and synchronized using a common lock object.
+ * - Thread t1: prints "Code of A" and sets t1Finished to true, t3Finished to false, and t2Finished to false. Then notifies all waiting threads.
+ * - Thread t2: waits until t1Finished becomes true, then prints "Code of B" and sets t2Finished to true. Then notifies all waiting threads and waits for 250 milliseconds.
+ * - Thread t3: waits until both t1Finished and t2Finished become true, then prints "Code of C" and sets t1Finished to false, t3Finished to true, and t2Finished to true.
+ */
 public class Main {
     static boolean t1Finished = false;
     static boolean t2Finished = true;
@@ -39,7 +46,6 @@ public class Main {
                         System.out.println("Code of B");
                         t2Finished = true;
                         lock.notifyAll();
-                        ;
                         Thread.sleep(250);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
