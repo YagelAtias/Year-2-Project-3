@@ -8,6 +8,7 @@ import java.util.Random;
  *
  * @author Yagel Atias 208905448
  * @author Slava Ignatiev 322015280
+ * github link: https://github.com/YagelAtias/Year-2-Project-3
  */
 public class GamePlay {
     private boolean coin_available_;

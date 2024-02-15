@@ -7,6 +7,7 @@ public class Main {
      *
      * @author Yagel Atias 208905448
      * @author Slava Ignatiev 322015280
+     * github link: https://github.com/YagelAtias/Year-2-Project-3
      */
     public static void main(String[] args) {
         GamePlay game = new GamePlay();

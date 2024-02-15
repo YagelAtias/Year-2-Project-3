@@ -6,6 +6,9 @@ package assig3_1;
  * - Thread t1: prints "Code of A" and sets t1Finished to true, t3Finished to false, and t2Finished to false. Then notifies all waiting threads.
  * - Thread t2: waits until t1Finished becomes true, then prints "Code of B" and sets t2Finished to true. Then notifies all waiting threads and waits for 250 milliseconds.
  * - Thread t3: waits until both t1Finished and t2Finished become true, then prints "Code of C" and sets t1Finished to false, t3Finished to true, and t2Finished to true.
+ * @author Yagel Atias 208905448
+ * @author Slava Ignatiev 322015280
+ * github link: https://github.com/YagelAtias/Year-2-Project-3
  */
 public class Main {
     static boolean t1Finished = false;

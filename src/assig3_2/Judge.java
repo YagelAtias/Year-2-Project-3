@@ -6,6 +6,7 @@ package assig3_2;
  *
  * @author Yagel Atias 208905448
  * @author Slava Ignatiev 322015280
+ * github link: https://github.com/YagelAtias/Year-2-Project-3
  */
 public class Judge extends Thread {
     private final int MAX_FLIPS = 10;
